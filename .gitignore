@@ -36,4 +36,3 @@ build/
 *.env
 
 
-Started working on AiService || Connected to DB ||Added 2 endpoints for Recommendation service
