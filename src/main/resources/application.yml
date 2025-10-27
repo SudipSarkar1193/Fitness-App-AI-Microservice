@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ai-service
+
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+
+server:
+  port: 8083
