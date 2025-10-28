@@ -14,8 +14,11 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
-        spring.json.value.default.type:
+        spring.json.value.default.type: com.fitness.AiService.models.Activity
         spring.json.use.type.headers: false
+
+    topic:
+      name: Activity-event
 
 
 eureka:
