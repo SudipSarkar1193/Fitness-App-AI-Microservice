@@ -20,6 +20,14 @@ spring:
     topic:
       name: Activity-event
 
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: gemini-1.5-flash
+
 
 eureka:
   client:

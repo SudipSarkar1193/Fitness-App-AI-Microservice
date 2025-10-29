@@ -23,7 +23,7 @@ public class RecommendationService {
 
     }
 
-    public Optional<RecommendationResponseDTO> findByActivityUuid(UUID activityUuid) {
+    public Optional<RecommendationResponseDTO> findRecommendationByActivityUuid(UUID activityUuid) {
         Optional<Recommendation> recommendation = recommendationRepository.findByActivityUuid(activityUuid);
         return recommendation.map(this::mapToDTO);
     }

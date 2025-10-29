@@ -1,68 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<!-- Root project definition for Maven -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- Maven model version (always 4.0.0 for modern Maven builds) -->
 	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Parent dependency: Spring Boot Starter Parent manages versions of common dependencies -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.7</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>3.5.7</version> <!-- Spring Boot version -->
+		<relativePath/> <!-- No local relative parent path -->
 	</parent>
-	<groupId>com.fitness</groupId>
-	<artifactId>AiService</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+
+	<!-- Basic project metadata -->
+	<groupId>com.fitness</groupId>          <!-- Package name -->
+	<artifactId>AiService</artifactId>       <!-- Project name -->
+	<version>0.0.1-SNAPSHOT</version>       <!-- Snapshot = development version -->
 	<name>AiService</name>
 	<description>Demo project for Spring Boot</description>
+
+	<!-- Optional placeholders (SCM, licenses, developer info) -->
 	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
+	<licenses><license/></licenses>
+	<developers><developer/></developers>
 	<scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
 		<url/>
 	</scm>
+
+	<!-- Global project properties -->
 	<properties>
-		<java.version>21</java.version>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<java.version>21</java.version>                     <!-- Using Java 21 -->
+		<spring-cloud.version>2025.0.0</spring-cloud.version> <!-- Spring Cloud BOM version -->
+		<spring-ai.version>1.1.0-M3</spring-ai.version>       <!-- Spring AI version -->
 	</properties>
+
+	<!-- Application dependencies -->
 	<dependencies>
+
+		<!-- MongoDB driver for Spring Data -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
+
+		<!-- Web layer: includes Tomcat + Spring MVC + JSON support -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<!-- Eureka Client for service discovery (Microservice setup) -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
+		<!-- Lombok for boilerplate code reduction -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- Unit + Integration testing setup -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Kafka integration (for message streaming / async communication) -->
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
+		<!-- Spring AI: Google Gemini model integration -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-starter-model-google-genai</artifactId>
+		</dependency>
+
 	</dependencies>
+
+	<!-- Dependency version management using BOM imports -->
 	<dependencyManagement>
 		<dependencies>
+
+			<!-- Spring Cloud BOM for managing Cloud dependency versions -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -70,11 +102,24 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
+			<!-- Spring AI BOM to align all AI-related dependencies -->
+			<dependency>
+				<groupId>org.springframework.ai</groupId>
+				<artifactId>spring-ai-bom</artifactId>
+				<version>${spring-ai.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- Build configuration -->
 	<build>
 		<plugins>
+
+			<!-- Maven compiler plugin: ensures Lombok annotations are processed -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -87,10 +132,13 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
+			<!-- Spring Boot plugin: helps build executable JAR -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<!-- Exclude Lombok from being packaged in the JAR -->
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -99,7 +147,36 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
+
+	<!-- Additional repositories for snapshots and milestones -->
+	<repositories>
+
+		<!-- Spring Snapshot repository (for early Spring releases) -->
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+
+		<!-- Central Sonatype snapshot repository -->
+		<repository>
+			<name>Central Portal Snapshots</name>
+			<id>central-portal-snapshots</id>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+	</repositories>
 
 </project>

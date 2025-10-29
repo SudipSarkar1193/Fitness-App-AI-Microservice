@@ -25,8 +25,8 @@ public class RecommendationController {
     }
 
     @GetMapping("/activity/{activityUuid}")
-    public ResponseEntity<RecommendationResponseDTO> findByActivityUuid(@PathVariable UUID activityUuid) {
-        return recommendationService.findByActivityUuid(activityUuid)
+    public ResponseEntity<RecommendationResponseDTO> findRecommendationByActivityUuid(@PathVariable UUID activityUuid) {
+        return recommendationService.findRecommendationByActivityUuid(activityUuid)
                 .map(ResponseEntity::ok)
                 .orElseThrow(()-> new RuntimeException("Recommendation not found for activity UUID: " + activityUuid));
     }
