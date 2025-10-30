@@ -18,8 +18,7 @@ public class Recommendation {
     @Id
     private String Id;
 
-    private UUID uuid = UUID.randomUUID() ;
-
+    private UUID uuid ;
     private UUID userUuid;
     private UUID activityUuid;
     private String recommendationText;

@@ -1,14 +1,16 @@
 package com.fitness.AiService.dtos;
 
 import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Builder
+@Data
 public class RecommendationResponseDTO {
-    private UUID uuid;
+    private UUID uuid ;
     private UUID userUuid;
     private UUID activityUuid;
     private String recommendationText;

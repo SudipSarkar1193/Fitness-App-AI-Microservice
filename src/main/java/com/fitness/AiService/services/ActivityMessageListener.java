@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class ActivityMessageListener {
     private final RecommendationRepository recommendationRepository;
 
     @KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "${spring.kafka.consumer.group-id}")
-    public void listen(Activity activity){
+    public void processActivity(Activity activity){
 
         // For DEBUGGING :
         log.info("Received activity with activity-uuid: {}", activity.getActivityUuid());
@@ -44,8 +46,10 @@ public class ActivityMessageListener {
             System.out.println();
 
 
-            // 2. Map the AI response to your database model
-            Recommendation recommendation = Recommendation.builder()
+            // 2. Map the AI response to the database model
+            Recommendation recommendation =
+                    Recommendation.builder()
+                    .uuid(UUID.randomUUID())
                     .userUuid(activity.getUserUuid())
                     .activityUuid(activity.getActivityUuid())
                     .recommendationText(aiData.getRecommendationText())

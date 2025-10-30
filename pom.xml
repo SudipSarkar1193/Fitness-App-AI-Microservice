@@ -38,7 +38,8 @@
 	<properties>
 		<java.version>21</java.version>                     <!-- Using Java 21 -->
 		<spring-cloud.version>2025.0.0</spring-cloud.version> <!-- Spring Cloud BOM version -->
-		<spring-ai.version>1.1.0-M3</spring-ai.version>       <!-- Spring AI version -->
+		<spring-ai.version>1.1.0-M3</spring-ai.version>
+		<guava.version>32.1.2-jre</guava.version>
 	</properties>
 
 	<!-- Application dependencies -->
@@ -110,6 +111,13 @@
 				<version>${spring-ai.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+
+			<!-- Guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
 			</dependency>
 
 		</dependencies>
