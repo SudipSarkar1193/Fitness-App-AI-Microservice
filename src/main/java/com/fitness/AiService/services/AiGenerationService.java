@@ -28,7 +28,8 @@ public class AiGenerationService {
         // This converter tells Spring AI to force the LLM's output
         // into the structure of our AiGeneratedRecommendation class.
         // Ensure AiGeneratedRecommendation class exists and matches the expected structure
-        var outputConverter = new BeanOutputConverter<>(AiGeneratedRecommendationDTO.class);
+        BeanOutputConverter<AiGeneratedRecommendationDTO> outputConverter =
+                new BeanOutputConverter<>(AiGeneratedRecommendationDTO.class);
 
         PromptTemplate promptTemplate = getPromptTemplate();
         Prompt prompt = promptTemplate.create(Map.of(
