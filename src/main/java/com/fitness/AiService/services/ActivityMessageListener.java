@@ -30,6 +30,14 @@ public class ActivityMessageListener {
         System.out.println("Received activity: " + activity.getActivityUuid() + "name of activity: " + activity.getName() + " type of activity: " + activity.getName());
         System.out.println();
 
+
+        // IDEMPOTENCY CHECK :
+        // Check if a recommendation for this activity already exists
+        if (recommendationRepository.findByActivityUuid(activity.getActivityUuid()).isPresent()) {
+            log.warn("Recommendation for activity {} already exists. Skipping duplicate processing.....", activity.getActivityUuid());
+            return; // Simply return. We avoid generating duplicate recommendations.
+        }
+
         // PROCESSING :
         try {
             log.info("Generating AI recommendations for activity: {}", activity.getActivityUuid());
@@ -40,7 +48,7 @@ public class ActivityMessageListener {
             //Debug :
             System.out.println();
             System.out.println();
-            log.debug("AI generated recommendations for activity: {}" , aiData);
+            log.debug("AI generated recommendations for activity: {}" , aiData.toString());
             System.out.println();
             System.out.println();
             System.out.println();

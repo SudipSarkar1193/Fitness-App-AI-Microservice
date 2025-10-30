@@ -2,37 +2,6 @@ spring:
   application:
     name: ai-service
 
-  data:
-    mongodb:
-      uri: ${MONGO_URI}
+  config:
+    import: optional:configserver:http://localhost:8888
 
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: activity-processor-group
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: "*"
-        spring.json.value.default.type: com.fitness.AiService.models.Activity
-        spring.json.use.type.headers: false
-
-    topic:
-      name: Activity-event
-
-  ai:
-    google:
-      genai:
-        api-key: ${GEMINI_API_KEY}
-        chat:
-          options:
-            model: gemini-2.5-flash
-
-
-eureka:
-  client:
-    service-url:
-      default-zone: http://localhost:8761/eureka/
-
-server:
-  port: 8083
